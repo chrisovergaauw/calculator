@@ -119,10 +119,11 @@ public class ArithmeticService {
             leftOperandIsCurrent = true;
         }
 
-        result = result.setScale(16, RoundingMode.FLOOR);
+        leftOperand = String.valueOf(result);
+        result = result.setScale(15, RoundingMode.HALF_UP);
         result = result.stripTrailingZeros();
         equation.set(result.toPlainString());
-        leftOperand = String.valueOf(result);
+
 
         return result;
     }
