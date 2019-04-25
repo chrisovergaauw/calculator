@@ -1,0 +1,84 @@
+Button {
+    -fx-min-width: 60px;
+    -fx-min-height:  47px;
+    -fx-border-radius: 0px;
+    -fx-background-radius: 0px;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 18;
+    -fx-opacity: .8;
+}
+
+.number {
+    -fx-background-color: hsb(180, 1%, 53%);
+    -fx-font-size: 20;
+}
+
+.number:pressed {
+    -fx-background-color: hsb(180, 1%, 70%);
+}
+
+.basicOperator {
+    -fx-background-color: hsb(36, 97%, 100%);
+    -fx-font-size: 24;
+}
+
+.basicOperator:pressed {
+    -fx-background-color: hsb(36, 97%, 70%);
+}
+
+.function {
+    -fx-background-color: hsb(240, 1%, 44%);
+    -fx-font-size: 20;
+}
+
+.function:pressed {
+    -fx-background-color: hsb(180, 1%, 53%);
+}
+
+GridPane {
+    -fx-background-color: #545a5e;
+    -fx-background-radius: 10px;
+}
+
+Label {
+    -fx-min-height:  47px;
+    -fx-min-width: 246px;
+    -fx-text-alignment: RIGHT;
+    -fx-alignment: BOTTOM-RIGHT;
+    -fx-padding: 0;
+    -fx-text-fill: white;
+    -fx-font-weight: LIGHTER;
+    -fx-font-size: 28;
+    -fx-font-scale: 5;
+}
+
+.zero {
+    -fx-min-width: 122px;
+    -fx-background-radius: 0 0 0 5px;
+    -fx-alignment: CENTER-LEFT;
+}
+
+.equals {
+    -fx-background-radius: 0 0 5px 0;
+}
+
+.root, Vbox, .menu-bar {
+    -fx-background-color: #545a5e;
+    -fx-opacity: .95;
+    -fx-background-radius: 5px;
+    -fx-fit-to-height: true;
+}
+
+Hbox {
+    -fx-fill: black;
+    -fx-fill-width: 100px;
+    -fx-background-color: black;
+    -fx-base : #ffaadd;
+}
+
+#menu, #menu > Button {
+    -fx-padding: 0;
+    -fx-border-radius: 50;
+    -fx-background-color: hsb(240, 1%, 44%);
+}
