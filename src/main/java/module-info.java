@@ -4,4 +4,5 @@ module nl.overgaauw {
 
     opens nl.overgaauw to javafx.fxml;
     exports nl.overgaauw;
+    exports nl.overgaauw.controller;
 }

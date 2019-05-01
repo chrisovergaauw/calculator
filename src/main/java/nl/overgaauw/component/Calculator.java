@@ -60,6 +60,9 @@ public class Calculator {
         this.operator = operator;
         leftOperandIsCurrent = false;
         rightOperand = "";
+
+        calculationDisplay.set("hopefully nobody ever sees this :-)");
+        calculationDisplay.set(leftOperand);; // little trickery to trigger blinks on operator input
     }
 
     public void handleMinusInput() {

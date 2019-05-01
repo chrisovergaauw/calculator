@@ -1,9 +1,12 @@
-package nl.overgaauw;
+package nl.overgaauw.controller;
 
+import javafx.animation.FadeTransition;
 import javafx.beans.Observable;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.util.Duration;
 import nl.overgaauw.component.Calculator;
 
 public class BasicController {
@@ -12,6 +15,7 @@ public class BasicController {
 
     @FXML
     public Label calculationDisplay;
+    private FadeTransition calculationDisplayBlink;
 
     // numbers
     @FXML
@@ -61,7 +65,7 @@ public class BasicController {
     public void initialize(){
         calculator = new Calculator();
 
-        zero.setOnAction(e -> calculator.handleNumInput(0));
+        zero.setOnAction(e -> { calculator.handleNumInput(0); highlightButton(e); });
         one.setOnAction(e -> calculator.handleNumInput(1));
         two.setOnAction(e -> calculator.handleNumInput(2));
         three.setOnAction(e -> calculator.handleNumInput(3));
@@ -88,6 +92,11 @@ public class BasicController {
         calculationDisplay.textProperty().bind(calculator.calculationDisplay);
         calculationDisplay.textProperty().addListener(this::resizeDisplay);
 
+        calculationDisplayBlink = new FadeTransition(Duration.seconds(0.1), calculationDisplay);
+        calculationDisplayBlink.setFromValue(0.0);
+        calculationDisplayBlink.setToValue(1.0);
+        calculationDisplayBlink.setCycleCount(1);
+
     }
 
     private void resizeDisplay(Observable e) {
@@ -97,6 +106,7 @@ public class BasicController {
         } else {
             calculationDisplay.setStyle("-fx-font-size: 28;");
         }
+        calculationDisplayBlink.play();
     }
 
     private void toggleClearButton(Observable e) {
@@ -105,5 +115,10 @@ public class BasicController {
         } else {
             clear.textProperty().setValue("C");
         }
+    }
+
+    private void highlightButton(ActionEvent e) {
+        Button test = (Button) e.getTarget();
+//        test.setStyle("-fx-font-size: 40;");
     }
 }
