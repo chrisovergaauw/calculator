@@ -148,8 +148,13 @@ public class Calculator {
         rightOperand = "";
         leftOperandIsCurrent = true;
 
-        this.calculationDisplay = new SimpleStringProperty(leftOperand);
-        this.allClearState = new SimpleBooleanProperty(false);
+        if (this.calculationDisplay == null) {
+            this.calculationDisplay = new SimpleStringProperty(leftOperand);
+            this.allClearState = new SimpleBooleanProperty(false);
+        } else {
+            this.calculationDisplay.setValue(leftOperand);
+            this.allClearState.setValue(false);
+        }
     }
 
     /**

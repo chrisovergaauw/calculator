@@ -55,6 +55,11 @@ public class CalculatorTest {
         performAndCheckSimpleCalculation("1/3*3", "1");
     }
 
+    @Test
+    public void testMinusFollowedByOperator() {
+        performAndCheckSimpleCalculation("1-+1", "2");
+    }
+
     private void performAndCheckSimpleCalculation(String calculation, String expectedString) {
         BigDecimal expected = new BigDecimal(expectedString);
         char[] inputSequence = calculation.toCharArray();
