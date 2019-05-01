@@ -4,11 +4,11 @@ import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import nl.overgaauw.service.ArithmeticService;
+import nl.overgaauw.component.Calculator;
 
 public class BasicController {
 
-    private ArithmeticService arithmeticService;
+    private Calculator calculator;
 
     @FXML
     public Label calculationDisplay;
@@ -59,33 +59,33 @@ public class BasicController {
     public Button percentage;
 
     public void initialize(){
-        arithmeticService = new ArithmeticService();
+        calculator = new Calculator();
 
-        zero.setOnAction(e -> arithmeticService.handleNumInput(0));
-        one.setOnAction(e -> arithmeticService.handleNumInput(1));
-        two.setOnAction(e -> arithmeticService.handleNumInput(2));
-        three.setOnAction(e -> arithmeticService.handleNumInput(3));
-        four.setOnAction(e -> arithmeticService.handleNumInput(4));
-        five.setOnAction(e -> arithmeticService.handleNumInput(5));
-        six.setOnAction(e -> arithmeticService.handleNumInput(6));
-        seven.setOnAction(e -> arithmeticService.handleNumInput(7));
-        eight.setOnAction(e -> arithmeticService.handleNumInput(8));
-        nine.setOnAction(e -> arithmeticService.handleNumInput(9));
-        comma.setOnAction(e -> arithmeticService.handleDotInput());
+        zero.setOnAction(e -> calculator.handleNumInput(0));
+        one.setOnAction(e -> calculator.handleNumInput(1));
+        two.setOnAction(e -> calculator.handleNumInput(2));
+        three.setOnAction(e -> calculator.handleNumInput(3));
+        four.setOnAction(e -> calculator.handleNumInput(4));
+        five.setOnAction(e -> calculator.handleNumInput(5));
+        six.setOnAction(e -> calculator.handleNumInput(6));
+        seven.setOnAction(e -> calculator.handleNumInput(7));
+        eight.setOnAction(e -> calculator.handleNumInput(8));
+        nine.setOnAction(e -> calculator.handleNumInput(9));
+        comma.setOnAction(e -> calculator.handleDotInput());
 
-        plus.setOnAction(e -> arithmeticService.handleOperatorInput('+'));
-        minus.setOnAction(e -> arithmeticService.handleMinusInput());
-        times.setOnAction(e -> arithmeticService.handleOperatorInput('*'));
-        divide.setOnAction(e -> arithmeticService.handleOperatorInput('/'));
+        plus.setOnAction(e -> calculator.handleOperatorInput('+'));
+        minus.setOnAction(e -> calculator.handleMinusInput());
+        times.setOnAction(e -> calculator.handleOperatorInput('*'));
+        divide.setOnAction(e -> calculator.handleOperatorInput('/'));
 
-        equals.setOnAction(e -> arithmeticService.performCalculation());
+        equals.setOnAction(e -> calculator.performCalculation());
 
-        clear.setOnAction(e -> arithmeticService.clearAndReturnAllClearState());
-        arithmeticService.allClear.addListener(this::toggleClearButton);
+        clear.setOnAction(e -> calculator.clearAndReturnAllClearState());
+        calculator.allClearState.addListener(this::toggleClearButton);
 
-        invert.setOnAction(e -> arithmeticService.invertCurrentOperand());
+        invert.setOnAction(e -> calculator.negateCurrentOperand());
 
-        calculationDisplay.textProperty().bind(arithmeticService.equation);
+        calculationDisplay.textProperty().bind(calculator.calculationDisplay);
         calculationDisplay.textProperty().addListener(this::resizeDisplay);
 
     }
@@ -100,7 +100,7 @@ public class BasicController {
     }
 
     private void toggleClearButton(Observable e) {
-        if (arithmeticService.allClear.getValue()) {
+        if (calculator.allClearState.getValue()) {
             clear.textProperty().setValue("AC");
         } else {
             clear.textProperty().setValue("C");
