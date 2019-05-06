@@ -2,12 +2,14 @@ package nl.overgaauw.controller;
 
 import javafx.animation.FadeTransition;
 import javafx.beans.Observable;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 import nl.overgaauw.component.Calculator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BasicController {
 
@@ -54,6 +56,8 @@ public class BasicController {
     @FXML
     public Button minus;
 
+    private List<Button> operators = new ArrayList<>();
+
     // functions
     @FXML
     public Button clear;
@@ -65,7 +69,7 @@ public class BasicController {
     public void initialize(){
         calculator = new Calculator();
 
-        zero.setOnAction(e -> { calculator.handleNumInput(0); highlightButton(e); });
+        zero.setOnAction(e -> calculator.handleNumInput(0));
         one.setOnAction(e -> calculator.handleNumInput(1));
         two.setOnAction(e -> calculator.handleNumInput(2));
         three.setOnAction(e -> calculator.handleNumInput(3));
@@ -115,10 +119,5 @@ public class BasicController {
         } else {
             clear.textProperty().setValue("C");
         }
-    }
-
-    private void highlightButton(ActionEvent e) {
-        Button test = (Button) e.getTarget();
-//        test.setStyle("-fx-font-size: 40;");
     }
 }

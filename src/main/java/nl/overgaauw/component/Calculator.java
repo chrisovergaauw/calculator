@@ -25,6 +25,7 @@ public class Calculator {
 
     private boolean leftOperandIsCurrent;
     private boolean negateNextNum;
+    private boolean resetOnNextNumInput;
 
     public Calculator() {
         resetCalculator();
@@ -41,14 +42,19 @@ public class Calculator {
         try {
             result = performSimpleCalculation(getLeftOperand(), operator, getRightOperand());
             leftOperand = result.toPlainString();
-            result = result.setScale(15, RoundingMode.HALF_UP);
-            result = result.stripTrailingZeros();
+            result = getFormattedResult(result);
             calculationDisplay.set(result.toPlainString());
         } catch (ArithmeticException e) {
             leftOperand = "Not a Number";
             result = null;
             calculationDisplay.set(leftOperand);
         }
+        return result;
+    }
+
+    private BigDecimal getFormattedResult(BigDecimal result) {
+        result = result.setScale(15, RoundingMode.HALF_UP);
+        result = result.stripTrailingZeros();
         return result;
     }
 
@@ -62,7 +68,7 @@ public class Calculator {
         rightOperand = "";
 
         calculationDisplay.set("hopefully nobody ever sees this :-)");
-        calculationDisplay.set(leftOperand);; // little trickery to trigger blinks on operator input
+        calculationDisplay.set(leftOperand); // little trickery to trigger ui/display blinks on operator input
     }
 
     public void handleMinusInput() {
@@ -79,6 +85,10 @@ public class Calculator {
             negateNextNum = false;
         }
 
+        if (resetOnNextNumInput) {
+            resetCalculator();
+        }
+
         addIntToCurrentOperand(i);
         allClearState.setValue(false);
     }
@@ -91,6 +101,11 @@ public class Calculator {
             rightOperand += rightOperand.isEmpty() ? "0." : ".";
             calculationDisplay.set(rightOperand);
         }
+    }
+
+    public void handleEqualsInput() {
+        performCalculation();
+        resetOnNextNumInput = true;
     }
 
     private void addIntToCurrentOperand(int i) {
@@ -150,6 +165,7 @@ public class Calculator {
         leftOperand = "0";
         rightOperand = "";
         leftOperandIsCurrent = true;
+        resetOnNextNumInput = false;
 
         if (this.calculationDisplay == null) {
             this.calculationDisplay = new SimpleStringProperty(leftOperand);

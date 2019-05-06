@@ -32,27 +32,33 @@ public class CalculatorTest {
     }
 
     @Test
-    public void testNegativeSecondOperand() {
+    public void testNegativeSecondOperandInAddition() {
         performAndCheckSimpleCalculation("1+-1", "0");
     }
 
     @Test
-    public void testNegativeSecondOperandMultiplication() {
+    public void testNegativeSecondOperandInMultiplication() {
         performAndCheckSimpleCalculation("1*-1", "-1");
     }
 
     @Test
-    public void testNegativeFirstOperand() {
+    public void testNegativeFirstOperandInAddition() {
         performAndCheckSimpleCalculation("-1+1", "0");
     }
+
     @Test
-    public void testNegativeFirstOperandMultiplication() {
+    public void testNegativeFirstOperandInMultiplication() {
         performAndCheckSimpleCalculation("-1*1", "-1");
     }
 
     @Test
-    public void testReverseOperation() {
+    public void testReversabilityOfOperation() {
         performAndCheckSimpleCalculation("1/3*3", "1");
+    }
+
+    @Test
+    public void testMultipleCalculations() {
+        performAndCheckSimpleCalculation("1+1=1+1", "2");
     }
 
     @Test
@@ -69,8 +75,10 @@ public class CalculatorTest {
                 calculator.handleNumInput(Character.getNumericValue(symbol));
             } else if (symbol == '-') {
                 calculator.handleMinusInput();
-            }else if (symbol == '.') {
+            } else if (symbol == '.') {
                 calculator.handleDotInput();
+            } else if (symbol == '=') {
+                calculator.handleEqualsInput();
             } else {
                 calculator.handleOperatorInput(symbol);
             }
