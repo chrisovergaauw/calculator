@@ -94,13 +94,16 @@ public class Calculator {
     }
 
     public void handleDotInput() {
-        if (leftOperandIsCurrent) {
-            leftOperand += leftOperand.isEmpty() ? "0." : ".";
-            calculationDisplay.set(leftOperand);
-        } else {
-            rightOperand += rightOperand.isEmpty() ? "0." : ".";
-            calculationDisplay.set(rightOperand);
+        setCurrentOperandRaw(addDecimal(getCurrentOperandAsString()));
+    }
+
+    private String addDecimal(String operand) {
+        if (operand.isEmpty()) {
+            operand = "0.";
+        } else if (!operand.contains(".")) {
+            operand += ".";
         }
+        return operand;
     }
 
     public void handleEqualsInput() {
@@ -109,28 +112,22 @@ public class Calculator {
     }
 
     private void addIntToCurrentOperand(int i) {
-        if (leftOperandIsCurrent) {
-            leftOperand += i;
-            leftOperand = clean(leftOperand);
-            calculationDisplay.set(leftOperand);
-        } else {
-            rightOperand += i;
-            rightOperand = clean(rightOperand);
-            calculationDisplay.set(rightOperand);
-        }
+        String currentOperand = getCurrentOperandAsString();
+        currentOperand += i;
+        setCurrentOperand(currentOperand);
     }
 
     /**
      * Negates the value of the currently active operand.
      */
     public void negateCurrentOperand() {
-        if (leftOperandIsCurrent) {
-            leftOperand = leftOperand.startsWith("-") ? leftOperand.substring(1) : "-" + leftOperand;
-            calculationDisplay.set(leftOperand);
-        } else {
-            rightOperand = rightOperand.startsWith("-") ? rightOperand.stripLeading() : "-" + rightOperand;
-            calculationDisplay.set(rightOperand);
-        }
+        String currentOperand = getCurrentOperandAsString();
+        String negatedOperand = negateOperand(currentOperand);
+        setCurrentOperand(negatedOperand);
+    }
+
+    private String negateOperand(String operand) {
+        return operand.startsWith("-") ? operand.substring(1) : "-" + operand;
     }
 
     /**
@@ -162,11 +159,11 @@ public class Calculator {
 
 
     private void resetCalculator() {
-        leftOperand = "0";
-        rightOperand = "";
-        leftOperandIsCurrent = true;
-        resetOnNextNumInput = false;
+        resetOperandsAndBooleans();
+        InitDisplayAndClearState();
+    }
 
+    private void InitDisplayAndClearState() {
         if (this.calculationDisplay == null) {
             this.calculationDisplay = new SimpleStringProperty(leftOperand);
             this.allClearState = new SimpleBooleanProperty(false);
@@ -174,6 +171,13 @@ public class Calculator {
             this.calculationDisplay.setValue(leftOperand);
             this.allClearState.setValue(false);
         }
+    }
+
+    private void resetOperandsAndBooleans() {
+        leftOperand = "0";
+        rightOperand = "";
+        leftOperandIsCurrent = true;
+        resetOnNextNumInput = false;
     }
 
     /**
@@ -195,6 +199,33 @@ public class Calculator {
      */
     private BigDecimal getLeftOperand() {
         return getBDOperand(leftOperand);
+    }
+
+    private BigDecimal getCurrentOperandAsBD() {
+        return leftOperandIsCurrent ? getLeftOperand() : getRightOperand();
+    }
+
+    private String getCurrentOperandAsString() {
+        return leftOperandIsCurrent ? leftOperand : rightOperand;
+    }
+
+    private void setCurrentOperand(String operand) {
+        operand = clean(operand);
+        setCurrentOperandRaw(operand);
+    }
+
+    private void setCurrentOperandRaw(String operand) {
+        if (leftOperandIsCurrent) {
+            this.leftOperand = operand;
+        } else {
+            this.rightOperand = operand;
+        }
+
+        this.calculationDisplay.setValue(operand);
+    }
+
+    private void setCurrentOperand(BigDecimal operand) {
+        setCurrentOperand(getFormattedResult(operand).toPlainString());
     }
 
     /**
@@ -221,5 +252,10 @@ public class Calculator {
         } catch (NumberFormatException e) {
             return null;
         }
+    }
+
+    public void handlePercentageInput() {
+        BigDecimal currentOperand = getCurrentOperandAsBD();
+        setCurrentOperand(currentOperand.multiply(new BigDecimal(0.01)));
     }
 }

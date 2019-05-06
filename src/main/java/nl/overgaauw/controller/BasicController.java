@@ -93,6 +93,8 @@ public class BasicController {
 
         invert.setOnAction(e -> calculator.negateCurrentOperand());
 
+        percentage.setOnAction(e -> calculator.handlePercentageInput());
+
         calculationDisplay.textProperty().bind(calculator.calculationDisplay);
         calculationDisplay.textProperty().addListener(this::resizeDisplay);
 

@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class ArithmeticServiceTest {
@@ -16,8 +15,9 @@ public class ArithmeticServiceTest {
         BigDecimal rightOperand = new BigDecimal(0);
         char operator = '/';
 
-        BigDecimal result = ArithmeticService.performSimpleCalculation(leftOperand, operator, rightOperand);
-        assertNull(result);
+        assertThrows(ArithmeticException.class, () -> {
+             ArithmeticService.performSimpleCalculation(leftOperand, operator, rightOperand);
+        });
     }
 
 }

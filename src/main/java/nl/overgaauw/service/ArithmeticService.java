@@ -12,8 +12,10 @@ public class ArithmeticService {
     public static BigDecimal performSimpleCalculation(BigDecimal leftOperand, char operator, BigDecimal rightOperand) throws ArithmeticException {
         BigDecimal result = new BigDecimal(0);
 
-        if (leftOperand == null || rightOperand == null) {
+        if (leftOperand == null) {
             throw new ArithmeticException("Operands cannot be null!");
+        } else if (rightOperand == null) {
+            return leftOperand;
         }
 
         switch (operator) {
